@@ -193,6 +193,29 @@
         grid-column: 1 / -1;
       }
 
+      .video-frame {
+        aspect-ratio: 16 / 9;
+        margin-bottom: 28px;
+        border: 1px solid var(--l);
+        background: var(--p);
+        overflow: hidden;
+      }
+
+      .video-frame iframe {
+        display: block;
+        width: 100%;
+        height: 100%;
+        border: 0;
+      }
+
+      .video-link {
+        display: inline-flex;
+        margin-top: 14px;
+        color: var(--g);
+        font-size: 13px;
+        font-weight: 750;
+      }
+
       .not-found {
         max-width: 780px;
         margin: auto;
@@ -305,6 +328,7 @@
         {"id":"talentbank","title":"탤런트뱅크","categoryLabel":"CI","type":"기업 CI","scope":"Brand Identity","cover":"assets/project/탤런트뱅크00.png","images":["assets/project/탤런트뱅크00.png","assets/project/탤런트뱅크01.png","assets/project/탤런트뱅크02.png"]},
         {"id":"keystone-species","title":"키스톤 스피시즈","categoryLabel":"카페","type":"카페","scope":"Brand & Space","cover":"assets/project/키스톤스피시즈00.png","images":["assets/project/키스톤스피시즈00.png","assets/project/키스톤스피시즈01.png","assets/project/키스톤스피시즈02.png","assets/project/키스톤스피시즈03.png","assets/project/키스톤스피시즈04.png","assets/project/키스톤스피시즈05.png"]},
         {"id":"awesome-brew","title":"어썸브루","categoryLabel":"카페","type":"카페","scope":"Brand & Visual","cover":"assets/project/어썸브루00.png","images":["assets/project/어썸브루00.png","assets/project/어썸브루01.png","assets/project/어썸브루02.png","assets/project/어썸브루03.png","assets/project/어썸브루04.png"]},
+        {"id":"heiki-coffee","title":"헤이키 커피","categoryLabel":"카페","type":"카페","scope":"Brand Film","cover":"https://img.youtube.com/vi/uDN03EiNCAw/hqdefault.jpg","video":"https://www.youtube.com/embed/uDN03EiNCAw","images":[]},
         {"id":"small-espresso-bar","title":"스몰에스프레소바","categoryLabel":"카페","type":"카페","scope":"Brand & Space","cover":"assets/project/스몰에스프레소바00.png","images":["assets/project/스몰에스프레소바00.png","assets/project/스몰에스프레소바01.png"]},
         {"id":"harbor","title":"하버","categoryLabel":"음식점","type":"음식점","scope":"Brand Direction","cover":"assets/project/하버00.png","images":["assets/project/하버00.png","assets/project/하버01.png"]},
         {"id":"kitz-sukiyaki","title":"키츠 스키야키","categoryLabel":"음식점","type":"음식점","scope":"Brand & Space","cover":"assets/project/키츠스키야키00.png","images":["assets/project/키츠스키야키00.png","assets/project/키츠스키야키01.png"]},
@@ -342,6 +366,43 @@
           '"': "&quot;",
           "'": "&#39;",
         })[char]);
+
+      const renderVideo = (project) => {
+        if (!project.video) return "";
+
+        const youtubeUrl = project.video.replace("https://www.youtube.com/embed/", "https://www.youtube.com/watch?v=");
+
+        return `
+          <div class="video-frame reveal">
+            <iframe
+              src="${escapeHtml(project.video)}"
+              title="${escapeHtml(project.title)} 영상"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              referrerpolicy="strict-origin-when-cross-origin"
+              allowfullscreen
+            ></iframe>
+          </div>
+          <a class="video-link reveal" href="${escapeHtml(youtubeUrl)}" target="_blank" rel="noopener noreferrer">YouTube에서 보기</a>
+        `;
+      };
+
+      const renderImages = (project) => {
+        if (!project.images || project.images.length === 0) return "";
+
+        return `
+          <div class="gallery">
+            ${project.images
+              .map(
+                (image, index) => `
+                  <figure class="shot reveal" style="--delay:${Math.min(index % 6, 5) * 70}ms">
+                    <img src="${escapeHtml(image)}" alt="${escapeHtml(project.title)} 상세 이미지 ${index + 1}" loading="lazy" />
+                  </figure>
+                `,
+              )
+              .join("")}
+          </div>
+        `;
+      };
 
       const observeRevealItems = (items) => {
         if (reducedMotion) {
@@ -397,20 +458,11 @@
           <section class="section">
             <div class="wrap">
               <div class="section-head reveal">
-                <h2>Project Images</h2>
-                <p>프로젝트의 주요 결과 이미지를 순서대로 확인할 수 있습니다.</p>
+                <h2>${project.video ? "Project Film" : "Project Images"}</h2>
+                <p>${project.video ? "프로젝트의 브랜드 필름을 영상으로 확인할 수 있습니다." : "프로젝트의 주요 결과 이미지를 순서대로 확인할 수 있습니다."}</p>
               </div>
-              <div class="gallery">
-                ${project.images
-                  .map(
-                    (image, index) => `
-                      <figure class="shot reveal" style="--delay:${Math.min(index % 6, 5) * 70}ms">
-                        <img src="${escapeHtml(image)}" alt="${escapeHtml(project.title)} 상세 이미지 ${index + 1}" loading="lazy" />
-                      </figure>
-                    `,
-                  )
-                  .join("")}
-              </div>
+              ${renderVideo(project)}
+              ${renderImages(project)}
             </div>
           </section>
         `;
