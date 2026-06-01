@@ -31,6 +31,7 @@
         font-family: "Pretendard", system-ui, sans-serif;
         letter-spacing: 0;
         word-break: keep-all;
+        padding-bottom: 92px;
       }
 
       a {
@@ -256,7 +257,9 @@
       }
 
       .project-card {
+        display: block;
         border-top: 1px solid var(--l);
+        color: inherit;
         padding-top: 18px;
       }
 
@@ -502,6 +505,41 @@
         margin: auto;
       }
 
+      .center-fab {
+        position: fixed;
+        left: 50%;
+        bottom: 24px;
+        z-index: 30;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 48px;
+        max-width: calc(100vw - 40px);
+        padding: 0 24px;
+        border: 1px solid var(--b);
+        background: var(--b);
+        color: #ffffff;
+        box-shadow: 0 14px 34px rgba(0, 0, 0, 0.14);
+        font-size: 14px;
+        font-weight: 760;
+        line-height: 1;
+        white-space: nowrap;
+        opacity: 0;
+        transform: translate(-50%, 18px);
+        animation: fabIn 520ms ease 420ms forwards;
+      }
+
+      .center-fab:hover {
+        transform: translate(-50%, 16px);
+      }
+
+      @keyframes fabIn {
+        to {
+          opacity: 1;
+          transform: translate(-50%, 0);
+        }
+      }
+
       .reveal {
         opacity: 0;
         transform: translateY(24px);
@@ -521,10 +559,12 @@
 
         .reveal,
         .project-thumb img,
-        .btn {
+        .btn,
+        .center-fab {
           opacity: 1;
           transform: none;
           transition: none;
+          animation: none;
         }
       }
 
@@ -600,6 +640,11 @@
 
         footer div {
           flex-direction: column;
+        }
+
+        .center-fab {
+          bottom: 18px;
+          width: calc(100% - 40px);
         }
       }
     </style>
@@ -756,23 +801,40 @@
       </div>
     </footer>
 
+    <a
+      class="center-fab"
+      href="https://www.instagram.com/phim.studio/"
+      target="_blank"
+      rel="noopener noreferrer"
+      aria-label="PHIM STUDIO 인스타그램으로 이동"
+    >브랜드 방향 점검하기</a>
+
     <script type="application/json" id="projectsData">
       [
-        {"id":"talentbank","title":"탤런트뱅크","category":"ci","categoryLabel":"CI","type":"기업 CI","scope":"Brand Identity","cover":"assets/project/탤런트뱅크00.png"},
-        {"id":"keystone-species","title":"키스톤 스피시즈","category":"cafe","categoryLabel":"카페","type":"카페","scope":"Brand & Space","cover":"assets/project/키스톤스피시즈00.png"},
-        {"id":"awesome-brew","title":"어썸브루","category":"cafe","categoryLabel":"카페","type":"카페","scope":"Brand & Visual","cover":"assets/project/어썸브루00.png"},
-        {"id":"small-espresso-bar","title":"스몰에스프레소바","category":"cafe","categoryLabel":"카페","type":"카페","scope":"Brand & Space","cover":"assets/project/스몰에스프레소바00.png"},
-        {"id":"harbor","title":"하버","category":"restaurant","categoryLabel":"음식점","type":"음식점","scope":"Brand Direction","cover":"assets/project/하버00.png"},
-        {"id":"kitz-sukiyaki","title":"키츠 스키야키","category":"restaurant","categoryLabel":"음식점","type":"음식점","scope":"Brand & Space","cover":"assets/project/키츠스키야키00.png"},
-        {"id":"ggol-studio","title":"꼴 스튜디오","category":"web","categoryLabel":"웹페이지","type":"웹페이지","scope":"Landing Page","cover":"assets/project/꼴스튜디오00.png"},
-        {"id":"the-arium","title":"더아리움","category":"popup","categoryLabel":"팝업스토어","type":"팝업스토어","scope":"Experience Design","cover":"assets/project/더아리움00.png"},
-        {"id":"sputter","title":"스퍼터","category":"cafe","categoryLabel":"카페","type":"카페","scope":"Brand Direction","cover":"assets/project/스퍼터00.png"},
-        {"id":"onkal","title":"온칼","category":"restaurant","categoryLabel":"음식점","type":"음식점","scope":"Visual Direction","cover":"assets/project/온칼00.png"},
-        {"id":"mondergreen","title":"몬더그린","category":"cafe","categoryLabel":"카페","type":"카페","scope":"Brand & Visual","cover":"assets/project/몬더그린00.png"},
-        {"id":"kivitz-coffee","title":"키비츠커피","category":"cafe","categoryLabel":"카페","type":"카페","scope":"Brand Direction","cover":"assets/project/키비츠커피00.png"},
-        {"id":"phim-studio","title":"PHIM STUDIO","category":"studio","categoryLabel":"스튜디오","type":"자체 프로젝트","scope":"Brand Asset","cover":"assets/project/핌스튜디오00.png"}
+        {"id":"talentbank","title":"탤런트뱅크","category":"ci","categoryLabel":"CI","type":"기업 CI","scope":"Brand Identity","cover":"assets/project/탤런트뱅크00.png","images":["assets/project/탤런트뱅크00.png","assets/project/탤런트뱅크01.png","assets/project/탤런트뱅크02.png"]},
+        {"id":"keystone-species","title":"키스톤 스피시즈","category":"cafe","categoryLabel":"카페","type":"카페","scope":"Brand & Space","cover":"assets/project/키스톤스피시즈00.png","images":["assets/project/키스톤스피시즈00.png","assets/project/키스톤스피시즈01.png","assets/project/키스톤스피시즈02.png","assets/project/키스톤스피시즈03.png","assets/project/키스톤스피시즈04.png","assets/project/키스톤스피시즈05.png"]},
+        {"id":"awesome-brew","title":"어썸브루","category":"cafe","categoryLabel":"카페","type":"카페","scope":"Brand & Visual","cover":"assets/project/어썸브루00.png","images":["assets/project/어썸브루00.png","assets/project/어썸브루01.png","assets/project/어썸브루02.png","assets/project/어썸브루03.png","assets/project/어썸브루04.png"]},
+        {"id":"small-espresso-bar","title":"스몰에스프레소바","category":"cafe","categoryLabel":"카페","type":"카페","scope":"Brand & Space","cover":"assets/project/스몰에스프레소바00.png","images":["assets/project/스몰에스프레소바00.png","assets/project/스몰에스프레소바01.png"]},
+        {"id":"harbor","title":"하버","category":"restaurant","categoryLabel":"음식점","type":"음식점","scope":"Brand Direction","cover":"assets/project/하버00.png","images":["assets/project/하버00.png","assets/project/하버01.png"]},
+        {"id":"kitz-sukiyaki","title":"키츠 스키야키","category":"restaurant","categoryLabel":"음식점","type":"음식점","scope":"Brand & Space","cover":"assets/project/키츠스키야키00.png","images":["assets/project/키츠스키야키00.png","assets/project/키츠스키야키01.png"]},
+        {"id":"ggol-studio","title":"꼴 스튜디오","category":"web","categoryLabel":"웹페이지","type":"웹페이지","scope":"Landing Page","cover":"assets/project/꼴스튜디오00.png","images":["assets/project/꼴스튜디오00.png","assets/project/꼴스튜디오01.png"]},
+        {"id":"the-arium","title":"더아리움","category":"popup","categoryLabel":"팝업스토어","type":"팝업스토어","scope":"Experience Design","cover":"assets/project/더아리움00.png","images":["assets/project/더아리움00.png","assets/project/더아리움01.png"]},
+        {"id":"sputter","title":"스퍼터","category":"cafe","categoryLabel":"카페","type":"카페","scope":"Brand Direction","cover":"assets/project/스퍼터00.png","images":["assets/project/스퍼터00.png","assets/project/스퍼터01.png"]},
+        {"id":"onkal","title":"온칼","category":"restaurant","categoryLabel":"음식점","type":"음식점","scope":"Visual Direction","cover":"assets/project/온칼00.png","images":["assets/project/온칼00.png","assets/project/온칼01.png"]},
+        {"id":"mondergreen","title":"몬더그린","category":"cafe","categoryLabel":"카페","type":"카페","scope":"Brand & Visual","cover":"assets/project/몬더그린00.png","images":["assets/project/몬더그린00.png","assets/project/몬더그린01.png","assets/project/몬더그린02.png","assets/project/몬더그린03.png"]},
+        {"id":"kivitz-coffee","title":"키비츠커피","category":"cafe","categoryLabel":"카페","type":"카페","scope":"Brand Direction","cover":"assets/project/키비츠커피00.png","images":["assets/project/키비츠커피00.png","assets/project/키비츠커피01.png","assets/project/키비츠커피02.png","assets/project/키비츠커피03.png","assets/project/키비츠커피04.png"]},
+        {"id":"phim-studio","title":"PHIM STUDIO","category":"studio","categoryLabel":"스튜디오","type":"자체 프로젝트","scope":"Brand Asset","cover":"assets/project/핌스튜디오00.png","images":["assets/project/핌스튜디오00.png","assets/project/핌스튜디오01.png"]}
       ]
     </script>
+
+    <script>
+      window.va =
+        window.va ||
+        function () {
+          (window.vaq = window.vaq || []).push(arguments);
+        };
+    </script>
+    <script defer src="/_vercel/insights/script.js"></script>
 
     <script>
       const form = document.querySelector("#contactForm");
@@ -826,7 +888,7 @@
         projectGrid.innerHTML = filteredProjects
           .map(
             (project, index) => `
-              <article class="project-card reveal" data-project="${escapeHtml(project.id)}" style="--delay:${Math.min(index % 6, 5) * 70}ms">
+              <a class="project-card reveal" href="project.html?id=${encodeURIComponent(project.id)}" data-project="${escapeHtml(project.id)}" style="--delay:${Math.min(index % 6, 5) * 70}ms">
                 <div class="project-thumb">
                   <img src="${escapeHtml(project.cover)}" alt="${escapeHtml(project.title)} 프로젝트 이미지" loading="lazy" />
                   <span>${escapeHtml(getInitials(project.title))}</span>
@@ -838,7 +900,7 @@
                   </div>
                   <strong>${escapeHtml(project.categoryLabel)}</strong>
                 </div>
-              </article>
+              </a>
             `,
           )
           .join("");

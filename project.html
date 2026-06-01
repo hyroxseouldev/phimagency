@@ -1,0 +1,422 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>PHIM STUDIO | Project</title>
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" />
+    <link rel="stylesheet" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css" />
+    <style>
+      :root {
+        --b: #111111;
+        --g: #707070;
+        --l: #e6e6e6;
+        --p: #f8f8f8;
+        --max: 1320px;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        margin: 0;
+        background: #ffffff;
+        color: var(--b);
+        font-family: "Pretendard", system-ui, sans-serif;
+        letter-spacing: 0;
+        word-break: keep-all;
+      }
+
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+
+      img {
+        display: block;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      header {
+        position: sticky;
+        top: 0;
+        z-index: 20;
+        padding: 30px 42px;
+        border-bottom: 1px solid var(--l);
+        background: rgba(255, 255, 255, 0.92);
+        backdrop-filter: blur(14px);
+      }
+
+      .top {
+        display: grid;
+        grid-template-columns: 1fr auto 1fr;
+        align-items: center;
+        gap: 28px;
+        max-width: var(--max);
+        margin: auto;
+      }
+
+      .logo {
+        width: auto;
+        height: 30px;
+        object-fit: contain;
+      }
+
+      .back {
+        color: var(--g);
+        font-size: 13px;
+        font-weight: 700;
+      }
+
+      .mono {
+        color: var(--g);
+        font-size: 12px;
+        font-weight: 800;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+
+      .wrap {
+        max-width: var(--max);
+        margin: auto;
+        padding: 112px 42px;
+      }
+
+      .hero {
+        display: grid;
+        grid-template-columns: 0.9fr 1.1fr;
+        gap: 76px;
+        align-items: end;
+      }
+
+      h1,
+      h2,
+      h3,
+      p {
+        margin-top: 0;
+      }
+
+      h1 {
+        margin: 18px 0 28px;
+        font-size: clamp(42px, 6vw, 86px);
+        font-weight: 850;
+        line-height: 1.05;
+      }
+
+      .summary {
+        color: var(--g);
+        font-size: 17px;
+        line-height: 1.8;
+      }
+
+      .meta {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1px;
+        margin-top: 54px;
+        border: 1px solid var(--l);
+        background: var(--l);
+      }
+
+      .meta div {
+        min-height: 112px;
+        padding: 22px;
+        background: #ffffff;
+      }
+
+      .meta span {
+        display: block;
+        margin-bottom: 20px;
+        color: var(--g);
+        font-size: 12px;
+        font-weight: 850;
+        text-transform: uppercase;
+      }
+
+      .meta strong {
+        font-size: 17px;
+      }
+
+      .cover {
+        aspect-ratio: 16 / 10;
+        border: 1px solid var(--l);
+        background: var(--p);
+        overflow: hidden;
+      }
+
+      .section {
+        border-top: 1px solid var(--l);
+      }
+
+      .section-head {
+        display: flex;
+        justify-content: space-between;
+        gap: 80px;
+        margin-bottom: 42px;
+      }
+
+      .section-head h2 {
+        margin: 0;
+        font-size: clamp(28px, 4vw, 46px);
+        line-height: 1.14;
+      }
+
+      .section-head p {
+        max-width: 520px;
+        margin: 0;
+        color: var(--g);
+        font-size: 16px;
+        line-height: 1.8;
+      }
+
+      .gallery {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 28px;
+      }
+
+      .shot {
+        aspect-ratio: 16 / 9;
+        border: 1px solid var(--l);
+        background: var(--p);
+        overflow: hidden;
+      }
+
+      .shot:first-child {
+        grid-column: 1 / -1;
+      }
+
+      .not-found {
+        max-width: 780px;
+        margin: auto;
+        padding: 140px 42px;
+        text-align: center;
+      }
+
+      .not-found h1 {
+        font-size: clamp(34px, 5vw, 64px);
+      }
+
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 46px;
+        margin-top: 18px;
+        padding: 0 19px;
+        border: 1px solid var(--b);
+        background: var(--b);
+        color: #ffffff;
+        font-size: 14px;
+        font-weight: 760;
+      }
+
+      .reveal {
+        opacity: 0;
+        transform: translateY(24px);
+        transition: opacity 680ms ease, transform 680ms ease;
+        transition-delay: var(--delay, 0ms);
+      }
+
+      .reveal.is-visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        html {
+          scroll-behavior: auto;
+        }
+
+        .reveal {
+          opacity: 1;
+          transform: none;
+          transition: none;
+        }
+      }
+
+      @media (max-width: 900px) {
+        .top {
+          grid-template-columns: 1fr auto;
+        }
+
+        .mono:first-child {
+          display: none;
+        }
+
+        .wrap {
+          padding: 92px 26px;
+        }
+
+        .hero,
+        .section-head {
+          grid-template-columns: 1fr;
+          display: grid;
+          gap: 42px;
+        }
+
+        .meta,
+        .gallery {
+          grid-template-columns: 1fr;
+        }
+
+        .shot:first-child {
+          grid-column: auto;
+        }
+      }
+
+      @media (max-width: 620px) {
+        header {
+          padding: 22px 20px;
+        }
+
+        .wrap {
+          padding: 76px 20px;
+        }
+
+        h1 {
+          font-size: 40px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <div class="top">
+        <span class="mono">Project Detail</span>
+        <a href="index.html#projects" aria-label="PHIM STUDIO 프로젝트 목록으로 이동">
+          <img class="logo" src="assets/logo.png" alt="PHIM STUDIO" />
+        </a>
+        <a class="back" href="index.html#projects">Projects로 돌아가기</a>
+      </div>
+    </header>
+
+    <main id="projectRoot"></main>
+
+    <script type="application/json" id="projectsData">
+      [
+        {"id":"talentbank","title":"탤런트뱅크","categoryLabel":"CI","type":"기업 CI","scope":"Brand Identity","cover":"assets/project/탤런트뱅크00.png","images":["assets/project/탤런트뱅크00.png","assets/project/탤런트뱅크01.png","assets/project/탤런트뱅크02.png"]},
+        {"id":"keystone-species","title":"키스톤 스피시즈","categoryLabel":"카페","type":"카페","scope":"Brand & Space","cover":"assets/project/키스톤스피시즈00.png","images":["assets/project/키스톤스피시즈00.png","assets/project/키스톤스피시즈01.png","assets/project/키스톤스피시즈02.png","assets/project/키스톤스피시즈03.png","assets/project/키스톤스피시즈04.png","assets/project/키스톤스피시즈05.png"]},
+        {"id":"awesome-brew","title":"어썸브루","categoryLabel":"카페","type":"카페","scope":"Brand & Visual","cover":"assets/project/어썸브루00.png","images":["assets/project/어썸브루00.png","assets/project/어썸브루01.png","assets/project/어썸브루02.png","assets/project/어썸브루03.png","assets/project/어썸브루04.png"]},
+        {"id":"small-espresso-bar","title":"스몰에스프레소바","categoryLabel":"카페","type":"카페","scope":"Brand & Space","cover":"assets/project/스몰에스프레소바00.png","images":["assets/project/스몰에스프레소바00.png","assets/project/스몰에스프레소바01.png"]},
+        {"id":"harbor","title":"하버","categoryLabel":"음식점","type":"음식점","scope":"Brand Direction","cover":"assets/project/하버00.png","images":["assets/project/하버00.png","assets/project/하버01.png"]},
+        {"id":"kitz-sukiyaki","title":"키츠 스키야키","categoryLabel":"음식점","type":"음식점","scope":"Brand & Space","cover":"assets/project/키츠스키야키00.png","images":["assets/project/키츠스키야키00.png","assets/project/키츠스키야키01.png"]},
+        {"id":"ggol-studio","title":"꼴 스튜디오","categoryLabel":"웹페이지","type":"웹페이지","scope":"Landing Page","cover":"assets/project/꼴스튜디오00.png","images":["assets/project/꼴스튜디오00.png","assets/project/꼴스튜디오01.png"]},
+        {"id":"the-arium","title":"더아리움","categoryLabel":"팝업스토어","type":"팝업스토어","scope":"Experience Design","cover":"assets/project/더아리움00.png","images":["assets/project/더아리움00.png","assets/project/더아리움01.png"]},
+        {"id":"sputter","title":"스퍼터","categoryLabel":"카페","type":"카페","scope":"Brand Direction","cover":"assets/project/스퍼터00.png","images":["assets/project/스퍼터00.png","assets/project/스퍼터01.png"]},
+        {"id":"onkal","title":"온칼","categoryLabel":"음식점","type":"음식점","scope":"Visual Direction","cover":"assets/project/온칼00.png","images":["assets/project/온칼00.png","assets/project/온칼01.png"]},
+        {"id":"mondergreen","title":"몬더그린","categoryLabel":"카페","type":"카페","scope":"Brand & Visual","cover":"assets/project/몬더그린00.png","images":["assets/project/몬더그린00.png","assets/project/몬더그린01.png","assets/project/몬더그린02.png","assets/project/몬더그린03.png"]},
+        {"id":"kivitz-coffee","title":"키비츠커피","categoryLabel":"카페","type":"카페","scope":"Brand Direction","cover":"assets/project/키비츠커피00.png","images":["assets/project/키비츠커피00.png","assets/project/키비츠커피01.png","assets/project/키비츠커피02.png","assets/project/키비츠커피03.png","assets/project/키비츠커피04.png"]},
+        {"id":"phim-studio","title":"PHIM STUDIO","categoryLabel":"스튜디오","type":"자체 프로젝트","scope":"Brand Asset","cover":"assets/project/핌스튜디오00.png","images":["assets/project/핌스튜디오00.png","assets/project/핌스튜디오01.png"]}
+      ]
+    </script>
+
+    <script>
+      window.va =
+        window.va ||
+        function () {
+          (window.vaq = window.vaq || []).push(arguments);
+        };
+    </script>
+    <script defer src="/_vercel/insights/script.js"></script>
+
+    <script>
+      const root = document.querySelector("#projectRoot");
+      const projects = JSON.parse(document.querySelector("#projectsData").textContent);
+      const params = new URLSearchParams(window.location.search);
+      const project = projects.find((item) => item.id === params.get("id"));
+      const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+      const escapeHtml = (value) =>
+        String(value).replace(/[&<>"']/g, (char) => ({
+          "&": "&amp;",
+          "<": "&lt;",
+          ">": "&gt;",
+          '"': "&quot;",
+          "'": "&#39;",
+        })[char]);
+
+      const observeRevealItems = (items) => {
+        if (reducedMotion) {
+          items.forEach((item) => item.classList.add("is-visible"));
+          return;
+        }
+
+        const observer = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              if (entry.isIntersecting) {
+                entry.target.classList.add("is-visible");
+                observer.unobserve(entry.target);
+              }
+            });
+          },
+          { threshold: 0.14, rootMargin: "0px 0px -8% 0px" },
+        );
+
+        items.forEach((item, index) => {
+          item.style.setProperty("--delay", `${Math.min(index % 6, 5) * 70}ms`);
+          observer.observe(item);
+        });
+      };
+
+      if (!project) {
+        root.innerHTML = `
+          <section class="not-found">
+            <p class="mono">Project Not Found</p>
+            <h1>프로젝트를 찾을 수 없습니다.</h1>
+            <p class="summary">프로젝트 목록으로 돌아가 다시 선택해주세요.</p>
+            <a class="btn" href="index.html#projects">Projects로 돌아가기</a>
+          </section>
+        `;
+      } else {
+        document.title = `PHIM STUDIO | ${project.title}`;
+        root.innerHTML = `
+          <section class="wrap hero">
+            <div class="reveal">
+              <p class="mono">${escapeHtml(project.categoryLabel)} / ${escapeHtml(project.scope)}</p>
+              <h1>${escapeHtml(project.title)}</h1>
+              <p class="summary">${escapeHtml(project.type)} 프로젝트입니다. 브랜드 방향과 시각 경험을 한 흐름으로 정리한 작업을 이미지로 확인할 수 있습니다.</p>
+              <div class="meta">
+                <div><span>Category</span><strong>${escapeHtml(project.categoryLabel)}</strong></div>
+                <div><span>Type</span><strong>${escapeHtml(project.type)}</strong></div>
+                <div><span>Scope</span><strong>${escapeHtml(project.scope)}</strong></div>
+              </div>
+            </div>
+            <div class="cover reveal">
+              <img src="${escapeHtml(project.cover)}" alt="${escapeHtml(project.title)} 대표 이미지" />
+            </div>
+          </section>
+          <section class="section">
+            <div class="wrap">
+              <div class="section-head reveal">
+                <h2>Project Images</h2>
+                <p>프로젝트의 주요 결과 이미지를 순서대로 확인할 수 있습니다.</p>
+              </div>
+              <div class="gallery">
+                ${project.images
+                  .map(
+                    (image, index) => `
+                      <figure class="shot reveal" style="--delay:${Math.min(index % 6, 5) * 70}ms">
+                        <img src="${escapeHtml(image)}" alt="${escapeHtml(project.title)} 상세 이미지 ${index + 1}" loading="lazy" />
+                      </figure>
+                    `,
+                  )
+                  .join("")}
+              </div>
+            </div>
+          </section>
+        `;
+      }
+
+      observeRevealItems(document.querySelectorAll(".reveal"));
+    </script>
+  </body>
+</html>
