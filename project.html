@@ -75,6 +75,15 @@
         font-weight: 700;
       }
 
+      .links {
+        display: flex;
+        justify-content: flex-end;
+        gap: 26px;
+        color: var(--g);
+        font-size: 13px;
+        font-weight: 650;
+      }
+
       .mono {
         color: var(--g);
         font-size: 12px;
@@ -96,6 +105,12 @@
         align-items: end;
       }
 
+      .hero.video-detail {
+        grid-template-columns: 0.48fr 0.52fr;
+        align-items: start;
+        padding-bottom: 92px;
+      }
+
       h1,
       h2,
       h3,
@@ -108,6 +123,10 @@
         font-size: clamp(42px, 6vw, 86px);
         font-weight: 850;
         line-height: 1.05;
+      }
+
+      .video-detail h1 {
+        font-size: clamp(40px, 4vw, 48px);
       }
 
       .summary {
@@ -123,6 +142,10 @@
         margin-top: 54px;
         border: 1px solid var(--l);
         background: var(--l);
+      }
+
+      .video-detail .meta {
+        margin-top: 24px;
       }
 
       .meta div {
@@ -162,6 +185,10 @@
         margin-bottom: 42px;
       }
 
+      .film-section .wrap {
+        padding-top: 66px;
+      }
+
       .section-head h2 {
         margin: 0;
         font-size: clamp(28px, 4vw, 46px);
@@ -197,7 +224,7 @@
         aspect-ratio: 16 / 9;
         margin-bottom: 28px;
         border: 1px solid var(--l);
-        background: var(--p);
+        background: var(--b);
         overflow: hidden;
       }
 
@@ -214,6 +241,30 @@
         color: var(--g);
         font-size: 13px;
         font-weight: 750;
+      }
+
+      .video-placeholder {
+        display: grid;
+        place-items: center;
+        aspect-ratio: 16 / 9;
+        margin-bottom: 14px;
+        background: var(--b);
+        color: #ffffff;
+        text-align: center;
+      }
+
+      .video-placeholder strong {
+        display: block;
+        font-size: clamp(24px, 3vw, 34px);
+        line-height: 1.3;
+      }
+
+      .video-placeholder span {
+        display: block;
+        margin-top: 16px;
+        color: #c7c7c7;
+        font-size: 15px;
+        line-height: 1.5;
       }
 
       .not-found {
@@ -274,11 +325,16 @@
           display: none;
         }
 
+        .links {
+          display: none;
+        }
+
         .wrap {
           padding: 92px 26px;
         }
 
         .hero,
+        .hero.video-detail,
         .section-head {
           grid-template-columns: 1fr;
           display: grid;
@@ -313,11 +369,15 @@
   <body>
     <header>
       <div class="top">
-        <span class="mono">Project Detail</span>
+        <span class="mono">Brand Navigator</span>
         <a href="index.html#projects" aria-label="PHIM STUDIO 프로젝트 목록으로 이동">
           <img class="logo" src="assets/logo.png" alt="PHIM STUDIO" />
         </a>
-        <a class="back" href="index.html#projects">Projects로 돌아가기</a>
+        <div class="links">
+          <a href="index.html#projects">Projects</a>
+          <a href="index.html#services">Services</a>
+          <a href="index.html#contact">Contact</a>
+        </div>
       </div>
     </header>
 
@@ -373,14 +433,11 @@
         const youtubeUrl = project.video.replace("https://www.youtube.com/embed/", "https://www.youtube.com/watch?v=");
 
         return `
-          <div class="video-frame reveal">
-            <iframe
-              src="${escapeHtml(project.video)}"
-              title="${escapeHtml(project.title)} 영상"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-              referrerpolicy="strict-origin-when-cross-origin"
-              allowfullscreen
-            ></iframe>
+          <div class="video-placeholder reveal">
+            <div>
+              <strong>YouTube Video<br />uDN03EiNCAw</strong>
+              <span>Figma에서는 iframe 재생 대신 영상 플레이스홀더로 관리합니다.</span>
+            </div>
           </div>
           <a class="video-link reveal" href="${escapeHtml(youtubeUrl)}" target="_blank" rel="noopener noreferrer">YouTube에서 보기</a>
         `;
@@ -439,33 +496,60 @@
         `;
       } else {
         document.title = `PHIM STUDIO | ${project.title}`;
-        root.innerHTML = `
-          <section class="wrap hero">
-            <div class="reveal">
-              <p class="mono">${escapeHtml(project.categoryLabel)} / ${escapeHtml(project.scope)}</p>
-              <h1>${escapeHtml(project.title)}</h1>
-              <p class="summary">${escapeHtml(project.type)} 프로젝트입니다. 브랜드 방향과 시각 경험을 한 흐름으로 정리한 작업을 이미지로 확인할 수 있습니다.</p>
-              <div class="meta">
-                <div><span>Category</span><strong>${escapeHtml(project.categoryLabel)}</strong></div>
-                <div><span>Type</span><strong>${escapeHtml(project.type)}</strong></div>
-                <div><span>Scope</span><strong>${escapeHtml(project.scope)}</strong></div>
+        if (project.video) {
+          root.innerHTML = `
+            <section class="wrap hero video-detail">
+              <div class="reveal">
+                <p class="mono">${escapeHtml(project.categoryLabel)} / ${escapeHtml(project.scope)}</p>
+                <h1>${escapeHtml(project.title)}</h1>
               </div>
-            </div>
-            <div class="cover reveal">
-              <img src="${escapeHtml(project.cover)}" alt="${escapeHtml(project.title)} 대표 이미지" />
-            </div>
-          </section>
-          <section class="section">
-            <div class="wrap">
-              <div class="section-head reveal">
-                <h2>${project.video ? "Project Film" : "Project Images"}</h2>
-                <p>${project.video ? "프로젝트의 브랜드 필름을 영상으로 확인할 수 있습니다." : "프로젝트의 주요 결과 이미지를 순서대로 확인할 수 있습니다."}</p>
+              <div class="reveal">
+                <p class="summary">${escapeHtml(project.type)} 프로젝트입니다. 브랜드 방향과 시각 경험을 한 흐름으로 정리한 작업을 영상으로 확인할 수 있습니다.</p>
+                <div class="meta">
+                  <div><span>Category</span><strong>${escapeHtml(project.categoryLabel)}</strong></div>
+                  <div><span>Type</span><strong>${escapeHtml(project.type)}</strong></div>
+                  <div><span>Scope</span><strong>${escapeHtml(project.scope)}</strong></div>
+                </div>
               </div>
-              ${renderVideo(project)}
-              ${renderImages(project)}
-            </div>
-          </section>
-        `;
+            </section>
+            <section class="section film-section">
+              <div class="wrap">
+                <div class="section-head reveal">
+                  <h2>Project Film</h2>
+                  <p>프로젝트의 브랜드 필름을 영상으로 확인할 수 있습니다.</p>
+                </div>
+                ${renderVideo(project)}
+              </div>
+            </section>
+          `;
+        } else {
+          root.innerHTML = `
+            <section class="wrap hero">
+              <div class="reveal">
+                <p class="mono">${escapeHtml(project.categoryLabel)} / ${escapeHtml(project.scope)}</p>
+                <h1>${escapeHtml(project.title)}</h1>
+                <p class="summary">${escapeHtml(project.type)} 프로젝트입니다. 브랜드 방향과 시각 경험을 한 흐름으로 정리한 작업을 이미지로 확인할 수 있습니다.</p>
+                <div class="meta">
+                  <div><span>Category</span><strong>${escapeHtml(project.categoryLabel)}</strong></div>
+                  <div><span>Type</span><strong>${escapeHtml(project.type)}</strong></div>
+                  <div><span>Scope</span><strong>${escapeHtml(project.scope)}</strong></div>
+                </div>
+              </div>
+              <div class="cover reveal">
+                <img src="${escapeHtml(project.cover)}" alt="${escapeHtml(project.title)} 대표 이미지" />
+              </div>
+            </section>
+            <section class="section">
+              <div class="wrap">
+                <div class="section-head reveal">
+                  <h2>Project Images</h2>
+                  <p>프로젝트의 주요 결과 이미지를 순서대로 확인할 수 있습니다.</p>
+                </div>
+                ${renderImages(project)}
+              </div>
+            </section>
+          `;
+        }
       }
 
       observeRevealItems(document.querySelectorAll(".reveal"));

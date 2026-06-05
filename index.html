@@ -115,18 +115,18 @@
 
       .hero h1 {
         max-width: 980px;
-        margin: 0 auto 34px;
-        font-size: clamp(44px, 6.2vw, 88px);
+        margin: 0 auto 30px;
+        font-size: clamp(40px, 4vw, 48px);
         font-weight: 850;
         line-height: 1.08;
       }
 
       .hero p {
-        max-width: 660px;
-        margin: 0 auto 34px;
+        max-width: 772px;
+        margin: 0 auto 58px;
         color: var(--g);
         font-size: 17px;
-        line-height: 1.85;
+        line-height: 1.8;
       }
 
       .btn {
@@ -162,7 +162,7 @@
       }
 
       .wide {
-        margin-top: 88px;
+        margin-top: 147px;
         aspect-ratio: 21 / 9;
         border: 1px solid var(--l);
         overflow: hidden;
@@ -283,14 +283,7 @@
       }
 
       .project-thumb span {
-        position: absolute;
-        left: 16px;
-        bottom: 14px;
-        color: rgba(255, 255, 255, 0.78);
-        font-size: 44px;
-        font-weight: 850;
-        line-height: 1;
-        text-shadow: 0 1px 18px rgba(0, 0, 0, 0.25);
+        display: none;
       }
 
       .project-meta {
@@ -665,8 +658,11 @@
     <main>
       <section class="wrap hero reveal">
         <p class="mono">PHIM STUDIO</p>
-        <h1>브랜드가 선택받는 방향을 데이터와 디자인으로 정리합니다.</h1>
-        <p>인테리어, 브랜드 디자인, 웹 디자인까지 초기 창업과 기업 프로젝트에 필요한 설계를 하나의 흐름으로 제공합니다.</p>
+        <h1>브랜드 네비게이터, 핌 스튜디오</h1>
+        <p>
+          감으로 정하던 브랜드 방향, 데이터 기반으로 길을 찾아 드립니다.<br />
+          창업 기획부터 브랜드 디자인, 인테리어, 마케팅 솔루션에 이르는 브랜드 여정의 인도자가 되어 드립니다.
+        </p>
         <div class="btns">
           <a class="btn" href="#contact">무료 상담 신청하기</a>
           <a class="btn out" href="#projects">프로젝트 보기</a>
@@ -679,8 +675,12 @@
       <section class="section">
         <div class="wrap">
           <div class="head reveal">
-            <h2>감각은 출발점이고, 방향은 설계되어야 합니다.</h2>
-            <p>콘셉트, 타깃, 공간 무드, 시각 언어, 웹페이지가 서로 다른 이야기를 하지 않도록 브랜드 구조를 먼저 정리합니다.</p>
+            <h2>감각으로 출발,<br />데이터로 길찾기</h2>
+            <p>
+              감각으로만 하던 브랜딩, 이제 데이터 기반으로 토탈 마케팅 솔루션으로 확장합니다.<br />
+              콘셉트, 타겟, 공간 무드, 브랜드의 시각 언어, 공식 웹페이지의 흐름이 통일되고 명확하도록, 핌 스튜디오가 가이드 해드립니다.<br />
+              시장 데이터 분석 기반으로 브랜드가 가야할 방향을 더욱 명확히 짚어드립니다.
+            </p>
           </div>
           <div class="list3">
             <article class="reveal"><span class="num">01</span><h3>Brand Direction</h3><p>콘셉트, 타깃, 포지셔닝, 무드를 정리합니다.</p></article>
@@ -699,11 +699,10 @@
           <div class="filters reveal" aria-label="프로젝트 카테고리">
             <button class="filter-pill active" type="button" data-category="all" aria-pressed="true">All</button>
             <button class="filter-pill" type="button" data-category="ci" aria-pressed="false">CI</button>
-            <button class="filter-pill" type="button" data-category="cafe" aria-pressed="false">Cafe</button>
-            <button class="filter-pill" type="button" data-category="restaurant" aria-pressed="false">Restaurant</button>
+            <button class="filter-pill" type="button" data-category="fnb" aria-pressed="false">F&amp;B</button>
             <button class="filter-pill" type="button" data-category="web" aria-pressed="false">Web</button>
             <button class="filter-pill" type="button" data-category="popup" aria-pressed="false">Popup</button>
-            <button class="filter-pill" type="button" data-category="studio" aria-pressed="false">Studio</button>
+            <button class="filter-pill" type="button" data-category="video" aria-pressed="false">Video</button>
           </div>
           <div class="project-grid" id="projectGrid" aria-live="polite"></div>
         </div>
@@ -713,7 +712,7 @@
         <div class="wrap">
           <div class="head reveal">
             <h2>Services</h2>
-            <p>프로젝트 상태에 맞춰 필요한 범위만 명확하게 시작합니다.</p>
+            <p>지금 브랜드에게 필요한 명확한 솔루션을 제안합니다.</p>
           </div>
           <div class="services">
             <div class="row reveal"><b>01</b><div><h3>F&B 초기 창업 상담</h3><p>콘셉트, 상권, 메뉴 방향, 공간 무드, 브랜드 전략 점검</p></div><strong>6월 무료</strong></div>
@@ -880,7 +879,14 @@
       };
 
       const renderProjects = (category = "all") => {
-        const filteredProjects = category === "all" ? projects : projects.filter((project) => project.category === category);
+        const filteredProjects =
+          category === "all"
+            ? projects
+            : projects.filter((project) => {
+                if (category === "fnb") return project.category === "cafe" || project.category === "restaurant";
+                if (category === "video") return Boolean(project.video);
+                return project.category === category;
+              });
 
         projectGrid.innerHTML = filteredProjects
           .map(
