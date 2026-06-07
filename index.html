@@ -483,6 +483,15 @@
         display: block;
       }
 
+      .hp-field {
+        position: absolute;
+        left: -9999px;
+        width: 1px;
+        height: 1px;
+        opacity: 0;
+        overflow: hidden;
+      }
+
       footer {
         padding: 34px 42px;
         border-top: 1px solid var(--l);
@@ -782,6 +791,7 @@
               <label>예상 예산<input name="budget" /></label>
             </div>
             <label>문의 내용<textarea name="message"></textarea></label>
+            <label class="hp-field" aria-hidden="true">Website<input name="website" tabindex="-1" autocomplete="off" /></label>
             <button class="btn" type="submit">상담 신청하기</button>
             <p class="msg" id="formMessage">현재는 프론트엔드 폼 UI만 준비되어 있습니다.</p>
           </form>
@@ -833,8 +843,11 @@
     <script defer src="/_vercel/insights/script.js"></script>
 
     <script>
+      const CONTACT_ENDPOINT = "https://script.google.com/macros/s/AKfycby2SOLldsz2qpYfRzxZwcODG_bLa9t2WVz668DsPrrnmVCMAe8qcltFykvB3kQPs1AvRQ/exec";
       const form = document.querySelector("#contactForm");
       const message = document.querySelector("#formMessage");
+      const submitButton = form.querySelector('button[type="submit"]');
+      const submitButtonText = submitButton.textContent;
       const projectGrid = document.querySelector("#projectGrid");
       const filterButtons = document.querySelectorAll("[data-category]");
       const projects = JSON.parse(document.querySelector("#projectsData").textContent);
@@ -924,9 +937,42 @@
         });
       });
 
-      form.addEventListener("submit", (event) => {
-        event.preventDefault();
+      const setFormMessage = (text) => {
+        message.textContent = text;
         message.classList.add("on");
+      };
+
+      form.addEventListener("submit", async (event) => {
+        event.preventDefault();
+
+        if (!CONTACT_ENDPOINT || CONTACT_ENDPOINT.includes("PASTE_APPS_SCRIPT")) {
+          setFormMessage("전송 설정이 아직 완료되지 않았습니다.");
+          return;
+        }
+
+        const formData = new FormData(form);
+        formData.set("pageUrl", window.location.href);
+        formData.set("userAgent", navigator.userAgent);
+
+        submitButton.disabled = true;
+        submitButton.textContent = "전송 중...";
+
+        try {
+          await fetch(CONTACT_ENDPOINT, {
+            method: "POST",
+            mode: "no-cors",
+            body: new URLSearchParams(formData),
+          });
+
+          form.reset();
+          setFormMessage("상담 신청이 접수되었습니다. 빠르게 확인 후 연락드리겠습니다.");
+        } catch (error) {
+          console.error(error);
+          setFormMessage("전송 중 문제가 발생했습니다. 잠시 후 다시 시도해주세요.");
+        } finally {
+          submitButton.disabled = false;
+          submitButton.textContent = submitButtonText;
+        }
       });
 
       renderProjects();
