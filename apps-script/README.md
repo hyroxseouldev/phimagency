@@ -19,3 +19,21 @@
 8. Replace `PASTE_APPS_SCRIPT_WEB_APP_URL_HERE` in `index.html` with the `/exec` URL.
 
 The script appends submissions to the `Contact Submissions` tab and ignores requests where the hidden `website` field is filled.
+
+## Slack Notification
+
+The script can send a Slack notification after a contact submission is saved.
+
+1. In Slack, create an Incoming Webhook for the channel that should receive contact alerts.
+2. Copy the Slack webhook URL.
+3. In Apps Script, open Project Settings.
+4. Under Script Properties, add:
+   - Property: `SLACK_WEBHOOK_URL`
+   - Value: the Slack Incoming Webhook URL
+5. Save the property.
+6. Deploy > Manage deployments > Edit the active web app deployment.
+7. Create a new version and deploy it.
+
+Do not paste the Slack webhook URL into this repository. Treat it like a secret.
+
+If the Slack webhook is missing or invalid, the form submission still saves to the sheet. The Slack failure is only written to Apps Script logs.
